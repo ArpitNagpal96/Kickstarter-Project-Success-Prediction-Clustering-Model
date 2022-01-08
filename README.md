@@ -1,0 +1,25 @@
+
+# Kickstarter Project Launch Success Prediction and Clustering Model
+
+Kickstarter is a crowdfunding platform for gathering money from public. Project creators choose a deadline and minimum funding goal. If the backers back the project and the project reach the specified goal then the project is classified as successful otherwise its classified as failure. Goal of the model is to predict on the project launch date whether a project will be successful or not.
+
+
+Classification Model to predict project “Success” or “Failure”:
+The process to build the classification model is split into the following phases: data exploration and pre-processing, feature selection, model selection, and model hyperparameter tuning. For the data exploration phase, the analysis of a dummy Kickstarter.com project creation process was performed along with the Data Description provided. Post evaluation of relevance to the scope of the classification model, columns pledged, usd_pledged and backers_count were removed from the dataset since they are not involved at the inception and launch of the project and are computed once the crowdfunding for the projects is accumulated. Due to a similar reason, columns related to the date changed post-launch of the project on the platform were also removed. To incorporate categorical variables in the classification model, the process of dummifying such variables within the dataset was performed. For further refinement of the dataset, removal of anomalies and outliers using Isolation Forest was performed. For the variable state in the dataset, label encoding was executed, after the removal of categories apart from “failed” and “successful”.
+To extract significant features from the conditioned dataset, the concept of feature importance scores in Random Forest was applied. First, the dataset is split into train and test for feature selection to avoid overfitting. The selected features are extracted using the training dataset and then transferred onto the test dataset. To extract relevant features for the classification model, SelectFromModel from sklearn was utilized with Random Forest Classifier. The SelectFromModel selects those features which have an importance score greater than the average of the importance scores of all probable input predictors.
+For the binary classification model selection, five probable alternatives were explored and their performances were compared to finalize. The models compared were: Gradient
+Boosting Tree (GBT) Classifier, Random Forest, Logistic Regression, Artificial Neural Network (ANN), and K-Nearest Neighbor (K-NN) algorithm. Based on the performance on the test data segmented from the original dataset for multiple runs.
+
+Based on the above numerical computations, the ANN model was selected because the F1 score observed is highest with a decent enough accuracy. The argument for the consideration of the F1 score over the Accuracy score is since a False Negative or False Positive classification could lead to inconsistent predictions, and further highly impact the Kickstarter.com business process. For the selected ANN model, the GridSearchCV method from sklearn was used to tune the hyperparameters. The selected hyperparameters for optimization and their selected values are: alpha=0.0001, hidden_layer_sizes=6, max_iter=10000, solver='adam', learning_rate='adaptive'. The final classification model incorporates the above-mentioned hyperparameters in the ANN model for the prediction of the success or failure of a project at launch on the Kickstarter.com crowdfunding portal.
+
+
+Clustering Model for KickStarter.com Dataset:
+For the formation of clusters within the processed dataset, PCA and K-Means clustering was used to form clusters using the numerical values in the graph below from the dataset. A total of 2 components were included in PCA to keep better interpretability. Using the Elbow Method, the deflection point for the number of clusters required for the dataset and the PCA-
+derived components resulted in 4.
+
+Following is interpretation of all the four clusters based on relevant attributes within the given dataset:
+• Cluster 0: This cluster contains datapoints with high values of static_usd_rate attribute from the dataset, with low values of create_to_launch_days and launch_to_deadline_days.
+• Cluster 1: This cluster contains datapoints with low values of all selected attributes for clustering i.e., goal, static_usd_rate, create_to_launch_days and launch_to_deadline_days.
+• Cluster 2: This cluster contains datapoints with higher values of goal compared to other data points, while the other incorporated attributes are tending to the lower end compared to the corresponding values of other datapoints.
+• Cluster 3: This cluster contains datapoints with high values of create_to_launch_days and launch_to_deadline_days, with goal and static_usd_rate on the lower side.
+The Silhouette score achieved with K-Means clustering is 0.7624.
